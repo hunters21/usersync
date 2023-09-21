@@ -1,21 +1,11 @@
-document.getElementById('submitBtn').addEventListener('click', function() {
-    const inputPath = document.getElementById('pathInput').value;
-    
-    if (inputPath.endsWith('.csv')) {
-        // Check if the file exists; this is a basic check, 
-        // in a real-world scenario you would have to use server-side code to check the existence.
-        fetch(inputPath, { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById('output').value = "The CSV path is valid.";
-                } else {
-                    document.getElementById('output').value = "The CSV path is invalid or the file doesn't exist.";
-                }
-            })
-            .catch(error => {
-                document.getElementById('output').value = "The CSV path is invalid or the file doesn't exist.";
-            });
-    } else {
-        document.getElementById('output').value = "This is not a CSV file.";
+document.getElementById('uploadButton').addEventListener('click', function() {
+    const fileInput = document.getElementById('csvFile');
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            document.getElementById('csvOutput').value = event.target.result;
+        };
+        reader.readAsText(file);
     }
 });
